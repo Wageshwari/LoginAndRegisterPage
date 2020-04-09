@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button LogIn;
     EditText email,password;
-    TextView SignUp;
+    TextView SignUp ,ForgetPasswordTv;
     FirebaseAuth fAuth;
     ProgressBar timeToLogin;
     @Override
@@ -31,19 +31,26 @@ public class MainActivity extends AppCompatActivity {
         email=(EditText)findViewById(R.id.email);
         password=(EditText)findViewById(R.id.password);
         LogIn=(Button)findViewById(R.id.login);
-        SignUp=(TextView)findViewById(R.id.register);
+        SignUp=(TextView)findViewById(R.id.registertv);
         fAuth=FirebaseAuth.getInstance();
         timeToLogin=(ProgressBar)findViewById(R.id.timeReq);
-
+        ForgetPasswordTv=(TextView)findViewById(R.id.forgetpasstv);
 
       SignUp.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
               startActivity(new Intent(MainActivity.this,Register.class));
+              finish();
           }
       });
 
+        ForgetPasswordTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,ForgetPasswordActivity.class));
 
+            }
+        });
     }
 
 
@@ -73,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     Toast.makeText(getApplicationContext(),"User Created",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    timeToLogin.setVisibility(View.INVISIBLE);
                 }
                 else
                 {

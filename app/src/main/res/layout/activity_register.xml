@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:hint="Enter User Name"
-            android:inputType="textEmailAddress" />
+            android:hint="Enter User Name" />
 
         <EditText
             android:id="@+id/email"
@@ -34,8 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:hint="Enter Phone No."
-            android:inputType="textEmailAddress" />
+            android:hint="Enter Phone No." />
 
 
         <EditText

@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:gravity="center"
         android:orientation="vertical">
 
         <EditText
@@ -37,8 +38,19 @@
             android:text="LOGIN" />
 
         <TextView
+            android:text="Forget Your Password ? "
+            android:id="@+id/forgetpasstv"
+            android:textAlignment="center"
+            android:layout_margin="15dp"
+            android:textSize="20dp"
+            android:textColor="#FF00FF"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" />
+
+        <TextView
             android:text="New Here ? Create Account"
-            android:id="@+id/register"
+            android:id="@+id/registertv"
             android:textAlignment="center"
             android:layout_margin="15dp"
             android:textSize="20dp"
@@ -50,10 +62,11 @@
         <ProgressBar
             android:id="@+id/timeReq"
             style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:visibility="invisible"
-            android:layout_marginLeft="170dp"
-            android:layout_height="wrap_content" />
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="20dp"
+            android:visibility="gone" />
 
 
     </LinearLayout>

@@ -28,7 +28,7 @@ public class Register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_register);
         email=(EditText)findViewById(R.id.email);
         password=(EditText)findViewById(R.id.password);
         name=(EditText)findViewById(R.id.name);
@@ -45,7 +45,7 @@ public class Register extends AppCompatActivity {
     }
 
 
-    public void RegisterBtn(View View){
+    public void RegisterBtn(View view){
         String emailF=email.getText().toString().trim();
         String passwordF=password.getText().toString().trim();
         if(emailF.isEmpty())
@@ -71,7 +71,7 @@ public class Register extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     Toast.makeText(getApplicationContext(),"User Created",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    startActivity(new Intent(Register.this,MainActivity.class));
                 }
                 else
                 {
