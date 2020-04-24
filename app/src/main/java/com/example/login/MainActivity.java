@@ -1,95 +1,86 @@
 package com.example.login;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.os.Handler;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
+import com.google.android.material.navigation.NavigationView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
-    Button LogIn;
-    EditText email,password;
-    TextView SignUp ,ForgetPasswordTv;
-    FirebaseAuth fAuth;
-    ProgressBar timeToLogin;
+    boolean singleBack = false;
+    DrawerLayout mNavDrawer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        email=(EditText)findViewById(R.id.email);
-        password=(EditText)findViewById(R.id.password);
-        LogIn=(Button)findViewById(R.id.login);
-        SignUp=(TextView)findViewById(R.id.registertv);
-        fAuth=FirebaseAuth.getInstance();
-        timeToLogin=(ProgressBar)findViewById(R.id.timeReq);
-        ForgetPasswordTv=(TextView)findViewById(R.id.forgetpasstv);
 
-      SignUp.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              startActivity(new Intent(MainActivity.this,Register.class));
-              finish();
-          }
-      });
+        NavigationView  navigationView=findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
-        ForgetPasswordTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,ForgetPasswordActivity.class));
+      //  getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Menu1()).commit();
 
-            }
-        });
+        Toolbar tbar=findViewById(R.id.toolbar);
+        setSupportActionBar(tbar);
+
+        mNavDrawer=(DrawerLayout)findViewById(R.id.drawer_layout);
+
+        ActionBarDrawerToggle toggle;
+        toggle = new ActionBarDrawerToggle(
+                this,mNavDrawer,tbar,R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        mNavDrawer.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
 
-    public void LogInBtn(View view){
-        String emailF=email.getText().toString().trim();
-        String passwordF=password.getText().toString().trim();
-        if(emailF.isEmpty())
-        {
-            email.setError("Email is Required");
-            return;
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()){
+            case R.id.menu:
+                getSupportFragmentManager().beginTransaction()
+                     .replace(R.id.fragment_container,new Menu1()).commit();
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + menuItem.getItemId());
         }
-        if(passwordF.isEmpty())
-        {
-            password.setError("Password is Required");
-            return;
-        }
-        if(passwordF.length()<8)
-        {
-            password.setError("Password must be greater then 8 character");
-            return;
-        }
-
-        timeToLogin.setVisibility(android.view.View.VISIBLE);
-        fAuth.signInWithEmailAndPassword(emailF,passwordF).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful())
-                {
-                    Toast.makeText(getApplicationContext(),"User Created",Toast.LENGTH_SHORT).show();
-                    timeToLogin.setVisibility(View.INVISIBLE);
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"Error !"+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        mNavDrawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mNavDrawer.isDrawerOpen(GravityCompat.START)) {
+            mNavDrawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (singleBack) {
+                super.onBackPressed();
+                return;
+            }
+            this.singleBack = true;
+            Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
 
+            new Handler().postDelayed(new Runnable() {
 
+                @Override
+                public void run() {
+                    singleBack = false;
+                }
+            }, 2000);
+        }
+    }
 }

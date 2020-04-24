@@ -37,7 +37,7 @@ FirebaseAuth auth;
         backtv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ForgetPasswordActivity.this,MainActivity.class));
+                startActivity(new Intent(ForgetPasswordActivity.this,Signin.class));
                 finish();
             }
         });
@@ -55,6 +55,8 @@ FirebaseAuth auth;
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(ForgetPasswordActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(ForgetPasswordActivity.this,Signin.class));
+                            finish();
                         } else {
                             Toast.makeText(ForgetPasswordActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                         }
